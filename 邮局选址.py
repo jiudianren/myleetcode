@@ -6,8 +6,8 @@ class sol:
 那么 dp 方程就很明显了：
    设 f [i][j] 表示 a[0-j] 安放 i+1 个邮局的最小距离，转移方程为:
 
-    f[i][j]=min{f[i−1][k]+cost[k+1][j] 其中(0⩽k<n)}
-    其中  cost[k+1][j]cost[k+1][j] 表示在  a[k+1...j]a[k+1...j] 之中安放一个邮局的距离
+    f[i][j]= min{f[i−1][k]+cost[k+1][j] 其中(0⩽k<n)}
+    其中  cost[k+1][j]表示在  a[k+1]-a[j] 之中安放一个邮局的距离
     https://blog.csdn.net/MIC10086/article/details/112132848
     '''
 
@@ -19,8 +19,8 @@ class sol:
             self.re.append( [0xffffff]*len(address))
 
         con_num = len(address)
-        for i in range( con_num):
-            if i <=0:
+        for i in range(con_num):
+            if i <= 0:
                 self.re[0][i] =0
             else:
                 self.re[0][i]= self.post_one(address[:i+1])
@@ -40,19 +40,16 @@ class sol:
                     print(f"cur_val:{this_val}={self.re[post_index - 1][k] } +{self.post_one(address[k:con_index+1])}")
                     self.re[post_index][con_index] = min(self.re[post_index][con_index],this_val)
                     print(self.re[post_index])
-        for i in self.re:
-            print(i)
+        print(f"result:{self.re}")
         return self.re[num-1][len(address)-1]
 
     def post_one(self, address: list):
         if len(address)==0:
             return 0
-        pos = 0
         pos = (len(address)+1)//2
         tmp = 0
-        for i  in address:
+        for i in address:
             tmp = tmp+abs(i-address[pos-1])
-        #print(f"aa:{address},sum{sum}")
         return tmp
 
     def t(self):
